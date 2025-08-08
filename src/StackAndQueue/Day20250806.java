@@ -17,7 +17,7 @@ public class Day20250806 {
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n = nums.length;
         // 使用双端队列存储数组下标，队列头部始终是当前窗口的最大值下标
-        Deque<Integer> deque = new LinkedList<Integer>();
+        Deque<Integer> deque = new LinkedList<>();
 
         // 初始化第一个窗口
         for (int i = 0; i < k; ++i) {
@@ -29,6 +29,14 @@ public class Day20250806 {
             deque.offerLast(i);
         }
 
+        /*
+          当数组有 n 个元素，窗口大小为 k 时
+            ---第一个窗口覆盖索引 [0, k-1]
+            ---第二个窗口覆盖索引 [1, k]
+            ...
+            ---最后一个窗口覆盖索引 [n-k, n-1]
+            ---从第一个窗口的起始位置 0 到最后一个窗口的起始位置 n-k，共有 (n-k) - 0 + 1 = n-k+1 个窗口。
+         */
         // 存储结果
         int[] result = new int[n - k + 1];
         // 第一个窗口的最大值
@@ -54,5 +62,6 @@ public class Day20250806 {
         }
         return result;
     }
+
 }
 
