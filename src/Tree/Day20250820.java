@@ -12,24 +12,6 @@ import java.util.LinkedList;
  * 说明：叶子节点是指没有子节点的节点。
  */
 public class Day20250820 {
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     //1. 递归
     public int minDepth(TreeNode root) {

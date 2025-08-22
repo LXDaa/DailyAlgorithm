@@ -8,24 +8,6 @@ import java.util.LinkedList;
  * 给你一个二叉树的根节点 root ， 检查它是否轴对称。
  */
 public class Day20250818 {
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     //递归
     public boolean isSymmetric(TreeNode root) {

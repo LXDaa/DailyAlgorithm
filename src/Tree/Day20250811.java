@@ -1,6 +1,5 @@
 package Tree;
 
-import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /**
@@ -11,24 +10,6 @@ import java.util.*;
  * 94.二叉树的中序遍历
  */
 public class Day20250811 {
-    class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
