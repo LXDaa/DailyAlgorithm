@@ -17,55 +17,59 @@ import java.util.Stack;
  */
 public class Day20250908 {
     //二叉搜索树的中序遍历结果是一个严格递增的序列。
-    public boolean isValidBST(TreeNode root) {
-        return validBST(Long.MIN_VALUE, Long.MAX_VALUE, root);
-    }
 
-    private boolean validBST(long lower, long upper, TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-        if (root.val <= lower || root.val >= upper) {
-            return false;
+    static class Recursion {
+        public boolean isValidBST(TreeNode root) {
+            return validBST(Long.MIN_VALUE, Long.MAX_VALUE, root);
         }
 
-        return validBST(lower, root.val, root.left) && validBST(root.val, upper, root.right);
+        private boolean validBST(long lower, long upper, TreeNode root) {
+            if (root == null) {
+                return true;
+            }
+            if (root.val <= lower || root.val >= upper) {
+                return false;
+            }
+
+            return validBST(lower, root.val, root.left) && validBST(root.val, upper, root.right);
+        }
     }
 
     // 迭代
-    public boolean isValidBST2(TreeNode root) {
-        if (root == null) {
-            // 空树被认为是有效的BST
+    static class Iterate {
+        public boolean isValidBST(TreeNode root) {
+            if (root == null) {
+                // 空树被认为是有效的BST
+                return true;
+            }
+            // 用于中序遍历的栈
+            Stack<TreeNode> stack = new Stack<>();
+            // 用于记录前一个访问的节点
+            TreeNode pre = null;
+            while (root != null || !stack.isEmpty()) {
+                // 将当前节点及其所有左子节点入栈
+                if (root != null) {
+                    stack.push(root);
+                    // 移动到左子节点
+                    root = root.left;
+                } else {
+                    // 处理当前节点（中序遍历的顺序）
+                    TreeNode pop = stack.pop();
+                    // 检查当前节点值是否大于前一个节点的值
+                    if (pre != null && pop.val <= pre.val) {
+                        // 不满足BST性质
+                        return false;
+                    }
+                    // 更新前一个节点
+                    pre = pop;
+                    // 移动到右子节点
+                    root = pop.right;
+                }
+            }
+            // 所有节点都满足BST性质
             return true;
         }
-        // 用于中序遍历的栈
-        Stack<TreeNode> stack = new Stack<>();
-        // 用于记录前一个访问的节点
-        TreeNode pre = null;
-
-        while (root != null || !stack.isEmpty()) {
-            // 将当前节点及其所有左子节点入栈
-            while (root != null) {
-                stack.push(root);
-                // 移动到左子节点
-                root = root.left;
-            }
-
-            // 处理当前节点（中序遍历的顺序）
-            TreeNode pop = stack.pop();
-
-            // 检查当前节点值是否大于前一个节点的值
-            if (pre != null && pop.val <= pre.val) {
-                // 不满足BST性质
-                return false;
-            }
-            // 更新前一个节点
-            pre = pop;
-
-            // 移动到右子节点
-            root = pop.right;
-        }
-        // 所有节点都满足BST性质
-        return true;
     }
+
+
 }
