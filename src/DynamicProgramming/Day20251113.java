@@ -18,16 +18,19 @@ package DynamicProgramming;
  */
 public class Day20251113 {
     /**
-     * 01背包问题主函数
+     * 二维数组实现01背包问题
      *
      * @param weight 物品重量数组
      * @param value  物品价值数组
      * @param w      背包最大承重
      * @return 能获得的最大价值
      */
-    public int zeroOneBag(int[] weight, int[] value, int w) {
+    public int zeroOneBagTwoDimensional(int[] weight, int[] value, int w) {
         int n = weight.length;
         // dp[i][j] 表示从前 i 个物品中选择，且背包容量为 j 时能获得的最大价值
+
+        // dp数组的列数是w+1是因为背包容量可以从0到w，共w+1种可能
+        // 例如当w=5时，背包容量可以是0,1,2,3,4,5，共6种情况，即w+1
         int[][] dp = new int[n][w + 1];
 
         // 初始化：处理第一个物品（索引为0）
@@ -36,7 +39,7 @@ public class Day20251113 {
             dp[0][i] = value[0];
         }
 
-        // 从第二个物品开始遍历（索引从1开始）
+        // 动态规划过程：从第二个物品开始遍历（索引从1开始）
         for (int i = 1; i < n; i++) {
             // 遍历各种背包容量情况（从0到最大容量w）
             for (int j = 0; j <= w; j++) {
@@ -54,6 +57,42 @@ public class Day20251113 {
             }
         }
         // 返回考虑所有物品且背包容量为w时能获得的最大价值
+        // 为什么是n-1？
+        // 因为数组索引从0开始，而我们有n个物品（索引为0到n-1）
+        // dp[i][j]表示前i+1个物品在容量为j的情况下的最大价值
+        // 所以第n个物品（最后一个物品）对应的索引是n-1
+        // 这里返回的是考虑完所有n个物品后，在背包容量为w时的最大价值
         return dp[n - 1][w];
+    }
+
+    /**
+     * 一维数组实现01背包问题
+     *
+     * @param weight 物品重量数组，weight[i]表示第i个物品的重量
+     * @param value  物品价值数组，value[i]表示第i个物品的价值
+     * @param w      背包最大承重
+     * @return 能获得的最大价值
+     */
+    public int zeroOneBagOneDimensional(int[] weight, int[] value, int w) {
+        int n = weight.length;
+        // 初始化dp数组，dp[j]表示背包容量为j时能获得的最大价值
+        int[] dp = new int[w + 1];
+        // 外层循环遍历物品
+        // 先遍历物品，再遍历容量的原因是为了确保每个物品只被考虑一次（01背包特性）
+        // 在一维dp数组优化中，这样遍历可以保证在计算当前物品时，使用的状态是上一个物品的结果
+        // 如果先遍历容量再遍历物品，由于正序遍历时前面的状态已经被更新，会导致一个物品被多次选择
+        // 倒序遍历背包容量是为了避免重复选择同一物品，因为dp[j-weight[i]]需要的是上一轮的结果
+        for (int i = 0; i < n; i++) {
+            // 内层循环逆序遍历背包容量，从最大容量到当前物品重量
+            // 倒序遍历确保每次使用的都是上一个物品阶段的状态值
+            // 当前dp[i]要使用上一层左侧的dp值，正序覆盖了上一层左侧的dp值，倒叙避免了覆盖
+            for (int j = w; j >= weight[i]; j--) {
+                // 状态转移方程：选择不放入或放入当前物品的最大价值
+                // dp[j]对应不放入的情况，dp[j-weight[i]]+value[i]对应放入的情况
+                dp[j] = Math.max(dp[j], dp[j - weight[i]] + value[i]);
+            }
+        }
+        // 返回背包容量为w时能获得的最大价值
+        return dp[w];
     }
 }
