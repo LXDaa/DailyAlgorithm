@@ -96,11 +96,25 @@ public class Day20260115 {
                 }
 
                 // 步骤4：重新连接翻转后的分组到原链表中
-                // groupPrev.next应指向翻转后的新头节点（即原组的尾节点cur）
+                // 翻转前：groupPrev -> groupStart -> ... -> cur -> groupNext
+                // 翻转后：groupPrev -> cur(新头) -> ... -> groupStart(新尾) -> groupNext
+                // 所以groupPrev.next应指向翻转后的新头节点（即原组的尾节点cur）
                 groupPrev.next = cur;
+
                 // 更新groupPrev为当前组翻转后的尾节点（原组的头节点groupStart）
                 // 这样在下一轮循环中，新的分组就能正确连接
+                // 注意：翻转后groupStart变成了当前组的尾节点
                 groupPrev = groupStart;
+
+                /*
+                 * 具体示例：假设链表 1->2->3->4->5->6, k=3
+                 * 初始状态: dummy->1->2->3->4->5->6
+                 * 第一次翻转前: groupPrev=dummy(0), groupStart=1, cur=3, groupNext=4
+                 * 翻转[1,2,3]: 3->2->1
+                 * 翻转后: dummy->3->2->1->4->5->6
+                 * 连接后: groupPrev.next=cur(3), groupPrev更新为groupStart(1)
+                 * 此时groupPrev指向翻转后的尾部(1)，为下次循环做准备
+                 */
             }
 
             // 返回实际的头节点（跳过哑结点）
