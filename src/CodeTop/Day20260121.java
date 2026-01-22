@@ -22,6 +22,19 @@ package CodeTop;
  * - 以此类推，直到一个链表为空
  * 输出：[1,1,2,3,4,4]
  *
+ *     mergeTwoLists([1,2,4], [1,3,4])
+ *     ├── 1(来自list2) -> mergeTwoLists([1,2,4], [3,4])
+ *         ├── 1(来自list1) -> mergeTwoLists([2,4], [3,4])
+ *             ├── 2(来自list1) -> mergeTwoLists([4], [3,4])
+ *                 ├── 3(来自list2) -> mergeTwoLists([4], [4])
+ *                     ├── 4(来自list2) -> mergeTwoLists([4], null)
+ *                         └── 返回 [4]
+ *                     └── 返回 [4,4]
+ *                 └── 返回 [3,4,4]
+ *             └── 返回 [2,3,4,4]
+ *         └── 返回 [1,2,3,4,4]
+ *     └── 返回 [1,1,2,3,4,4]
+ *
  * @author lxd
  **/
 public class Day20260121 {
