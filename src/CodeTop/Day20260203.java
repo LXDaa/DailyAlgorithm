@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 /**
  * <a href="https://leetcode.cn/problems/valid-parentheses/description/">20. 有效的括号</a>
+ * <p>
  * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
  * <p>
  * 有效字符串需满足：
