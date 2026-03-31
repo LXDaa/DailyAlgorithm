@@ -100,7 +100,7 @@ import java.util.Arrays;
 public class Day20260327 {
     public int coinChange(int[] coins, int amount) {
         // 📦 dp 数组：dp[i] 表示凑成金额 i 所需的最少硬币数
-        int[] dp = new int[amount + 1];
+        int dp[] = new int[amount + 1];
 
         // 🔢 初始化：将所有值设为 amount + 1（相当于无穷大）
         // 原因：最多只需要 amount 个硬币（全用 1 元），所以 amount + 1 是不可能达到的值
@@ -111,25 +111,21 @@ public class Day20260327 {
 
         // 🔄 外层循环：从小到大遍历所有金额（从 1 到 amount）
         for (int i = 1; i <= amount; i++) {
-            // 🔄 内层循环：遍历所有硬币面额
-            for (int coin : coins) {
+            // 🔄 内层循环：遍历所有硬币面额（使用索引方式）
+            for (int j = 0; j < coins.length; j++) {
                 // ✅ 只有当硬币面额小于等于当前金额时才能使用
-                if (coin <= i) {
+                if (coins[j] <= i) {
                     // ⚖️ 状态转移方程：
                     // dp[i] = min(不使用当前硬币，使用当前硬币)
-                    // dp[i - coin] + 1 表示使用一枚当前硬币后的总硬币数
-                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                    // dp[i - coins[j]] + 1 表示使用一枚当前硬币后的总硬币数
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
                 }
             }
         }
 
-        // 🎯 判断是否有解：
-        // 如果 dp[amount] > amount，说明无法凑成目标金额（值仍然是初始的大值）
-        if (dp[amount] > amount) {
-            return -1;
-        }
-
-        // ✅ 返回凑成目标金额的最少硬币数
-        return dp[amount];
+        // 🎯 判断是否有解并返回：
+        // 如果 dp[amount] == amount + 1，说明无法凑成目标金额，返回 -1
+        // 否则返回 dp[amount]
+        return dp[amount] == amount + 1 ? -1 : dp[amount];
     }
 }
