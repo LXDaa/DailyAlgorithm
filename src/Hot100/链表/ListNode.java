@@ -1,4 +1,4 @@
-package Hot100;
+package Hot100.链表;
 
 /**
  * @author lxd
